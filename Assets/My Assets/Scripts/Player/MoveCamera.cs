@@ -8,6 +8,7 @@ public class MoveCamera : MonoBehaviour
 
     void Update()
     {
-        transform.position = target.position;
+        if(target)
+            transform.position = target.position;
     }
 }

@@ -11,14 +11,40 @@ public class PlayerMovement : MonoBehaviour
     private float maxDistance = 100f;
     private SpringJoint joint;
     [SerializeField] private GameObject deathParticle;
+    private Rigidbody rb;
+    [SerializeField] private TrailRenderer tr;
+    private bool trailCheck;
 
     private void Awake()
     {
         lr = GetComponent<LineRenderer>();
+        rb = GetComponent<Rigidbody>();
     }
 
     void Update()
     {
+        Vector3 newPos = transform.position;
+        newPos.z = 0;
+        transform.position = newPos;
+
+        if (rb.velocity.magnitude >= 10)
+        {
+            if (trailCheck)
+            {
+                tr.Clear();
+                trailCheck = false;
+            }
+            tr.startWidth = Mathf.Lerp(tr.startWidth, 1, Time.deltaTime * 5.0f);
+        }
+        else
+        {
+            if (!trailCheck)
+            {
+                trailCheck = true;
+            }
+            tr.startWidth = Mathf.Lerp(tr.startWidth, 0, Time.deltaTime * 5.0f);
+        }
+
         if (Input.GetMouseButtonDown(0)) 
         {
             StartGrapple();
@@ -70,7 +96,6 @@ public class PlayerMovement : MonoBehaviour
             lr.positionCount = 2;
             currentGrapplePosition = transform.position;
 
-            Rigidbody rb = GetComponent<Rigidbody>();
             Vector3 force = (newPoint - transform.position);
             rb.AddForce(force * 50f);
         }
@@ -94,7 +119,7 @@ public class PlayerMovement : MonoBehaviour
         lr.SetPosition(1, currentGrapplePosition);
     }
 
-    void PlayerDeath() 
+    public void PlayerDeath() 
     {
         Instantiate(deathParticle, transform.position, Quaternion.Euler(90, 0, 0));
         Destroy(gameObject);
