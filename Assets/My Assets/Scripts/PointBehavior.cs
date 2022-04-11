@@ -20,8 +20,8 @@ public class PointBehavior : MonoBehaviour
 
     void Update()
     {
+        //Constantly rotate the point to allure the players eyes, almost seductive like...
         rot++;
-
         transform.rotation = Quaternion.Euler(0, rot, -50);
     }
 
@@ -29,6 +29,7 @@ public class PointBehavior : MonoBehaviour
     {
         if (other.tag == "Player") 
         {
+            //Increase the runs score when the player collidies with the point.
             wb.AddScore(100);
             Instantiate(particle, transform.position, Quaternion.identity);
             Destroy(gameObject);

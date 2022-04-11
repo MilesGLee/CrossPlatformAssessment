@@ -27,9 +27,9 @@ public class PlayerMovement : MonoBehaviour
     {
         Vector3 newPos = transform.position;
         newPos.z = 0;
-        transform.position = newPos;
+        transform.position = newPos; //Make sure the player cant move along the Z axis
 
-        if (rb.velocity.magnitude >= 11)
+        if (rb.velocity.magnitude >= 11) //If the player is fast enough, start the trail
         {
             if (trailCheck)
             {
@@ -38,7 +38,7 @@ public class PlayerMovement : MonoBehaviour
             }
             tr.startWidth = Mathf.Lerp(tr.startWidth, 1, Time.deltaTime * 5.0f);
         }
-        else
+        else //If not fast enough, stop the trail
         {
             if (!trailCheck)
             {
@@ -47,10 +47,10 @@ public class PlayerMovement : MonoBehaviour
             tr.startWidth = Mathf.Lerp(tr.startWidth, 0, Time.deltaTime * 5.0f);
         }
 
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0)) 
         {
             StartGrapple();
-            InvokeRepeating("AddForceToPlayer", 1.0f, 0.5f);
+            InvokeRepeating("AddForceToPlayer", 1.0f, 0.5f); //Add a force to the grapple to allow smoother speed ramp up.
         }
         if (Input.GetMouseButtonUp(0))
         {
@@ -75,11 +75,11 @@ public class PlayerMovement : MonoBehaviour
     void StartGrapple()
     {
         RaycastHit hit;
-        Ray ray = cam.ScreenPointToRay(Input.mousePosition);
+        Ray ray = cam.ScreenPointToRay(Input.mousePosition); //Use where the mouse is on the screen to choose the knob to grapple to.
 
         if (Physics.Raycast(ray, out hit, maxDistance, whatIsGrapple))
         {
-            Vector3 newPoint = hit.point;
+            Vector3 newPoint = hit.point; //Create the spring joint and grapple to the location
             newPoint.z = 0;
             grapplePoint = newPoint;
             joint = gameObject.AddComponent<SpringJoint>();
@@ -123,7 +123,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void PlayerDeath()
     {
-        if (deathCheck == false)
+        if (deathCheck == false) //On players death, spawn particle, then leave to main menu
         {
             deathCheck = true;
             Instantiate(deathParticle, transform.position, Quaternion.Euler(90, 0, 0));

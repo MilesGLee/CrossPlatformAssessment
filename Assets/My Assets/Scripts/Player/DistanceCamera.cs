@@ -4,16 +4,9 @@ using UnityEngine;
 
 public class DistanceCamera : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
     void Update()
     {
-        Debug.Log(GetComponent<Camera>().aspect);
+        //Change the cameras distance to the player depending on the aspect ratio
         Vector3 newPos = transform.position;
         if (GetComponent<Camera>().aspect < 1)
             newPos.z = -35;

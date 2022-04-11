@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class EnemyBehavior : MonoBehaviour
 {
-    [SerializeField] private Transform target;
-    [SerializeField] private GameObject deathParticle;
+    [SerializeField] private Transform target; //The enemies target
+    [SerializeField] private GameObject deathParticle; //The effect that plays when the enemy dies
     private WorldBehavior wb;
+
     public Transform Target 
     {
         set { target = value; }
@@ -18,7 +19,7 @@ public class EnemyBehavior : MonoBehaviour
 
     void Update()
     {
-        if(target)
+        if(target) //If a target exists, constantly move towards it.
             transform.Translate((target.position - transform.position) * Time.deltaTime * 0.5f);
     }
     void EnemyDeath()
@@ -29,7 +30,7 @@ public class EnemyBehavior : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.transform.tag == "Player") 
+        if (other.transform.tag == "Player") //If on collision the player has enough speed = kill me, if not = kill player
         {
             Rigidbody rb = other.transform.GetComponent<Rigidbody>();
             if (rb.velocity.magnitude >= 10)
