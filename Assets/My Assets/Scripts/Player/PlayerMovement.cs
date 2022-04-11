@@ -10,6 +10,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private Camera cam;
     private float maxDistance = 100f;
     private SpringJoint joint;
+    [SerializeField] private GameObject deathParticle;
 
     private void Awake()
     {
@@ -21,16 +22,26 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetMouseButtonDown(0)) 
         {
             StartGrapple();
+            InvokeRepeating("AddForceToPlayer", 1.0f, 0.5f);
         }
         if (Input.GetMouseButtonUp(0)) 
         {
             StopGrapple();
+            CancelInvoke("AddForceToPlayer");
         }
+        if (transform.position.y < -100)
+            PlayerDeath();
     }
 
     private void LateUpdate()
     {
         DrawRope();
+    }
+
+    void AddForceToPlayer() 
+    {
+        Rigidbody rb = GetComponent<Rigidbody>();
+        rb.AddForce(rb.velocity * 10.0f);
     }
 
     void StartGrapple() 
@@ -49,12 +60,12 @@ public class PlayerMovement : MonoBehaviour
 
             float distanceFromPoint = Vector3.Distance(transform.position, grapplePoint);
 
-            joint.maxDistance = distanceFromPoint * 0.8f;
+            joint.maxDistance = distanceFromPoint * 0.4f;
             joint.minDistance = distanceFromPoint * 0.25f;
 
-            joint.spring = 4.5f;
+            joint.spring = 10.0f;
             joint.damper = 7f;
-            joint.massScale = 4.5f;
+            joint.massScale = 10.0f;
 
             lr.positionCount = 2;
             currentGrapplePosition = transform.position;
@@ -81,5 +92,11 @@ public class PlayerMovement : MonoBehaviour
 
         lr.SetPosition(0, transform.position);
         lr.SetPosition(1, currentGrapplePosition);
+    }
+
+    void PlayerDeath() 
+    {
+        Instantiate(deathParticle, transform.position, Quaternion.Euler(90, 0, 0));
+        Destroy(gameObject);
     }
 }
