@@ -15,6 +15,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private TrailRenderer tr;
     private bool trailCheck;
     [SerializeField] private WorldBehavior wb;
+    private bool deathCheck;
 
     private void Awake()
     {
@@ -46,12 +47,12 @@ public class PlayerMovement : MonoBehaviour
             tr.startWidth = Mathf.Lerp(tr.startWidth, 0, Time.deltaTime * 5.0f);
         }
 
-        if (Input.GetMouseButtonDown(0)) 
+        if (Input.GetMouseButtonDown(0))
         {
             StartGrapple();
             InvokeRepeating("AddForceToPlayer", 1.0f, 0.5f);
         }
-        if (Input.GetMouseButtonUp(0)) 
+        if (Input.GetMouseButtonUp(0))
         {
             StopGrapple();
             CancelInvoke("AddForceToPlayer");
@@ -65,18 +66,18 @@ public class PlayerMovement : MonoBehaviour
         DrawRope();
     }
 
-    void AddForceToPlayer() 
+    void AddForceToPlayer()
     {
         Rigidbody rb = GetComponent<Rigidbody>();
         rb.AddForce(rb.velocity * 10.0f);
     }
 
-    void StartGrapple() 
+    void StartGrapple()
     {
         RaycastHit hit;
         Ray ray = cam.ScreenPointToRay(Input.mousePosition);
 
-        if (Physics.Raycast(ray, out hit, maxDistance, whatIsGrapple)) 
+        if (Physics.Raycast(ray, out hit, maxDistance, whatIsGrapple))
         {
             Vector3 newPoint = hit.point;
             newPoint.z = 0;
@@ -110,7 +111,7 @@ public class PlayerMovement : MonoBehaviour
 
     private Vector3 currentGrapplePosition;
 
-    void DrawRope() 
+    void DrawRope()
     {
         if (!joint) return;
 
@@ -120,9 +121,23 @@ public class PlayerMovement : MonoBehaviour
         lr.SetPosition(1, currentGrapplePosition);
     }
 
-    public void PlayerDeath() 
+    public void PlayerDeath()
     {
-        Instantiate(deathParticle, transform.position, Quaternion.Euler(90, 0, 0));
-        Destroy(gameObject);
+        if (deathCheck == false)
+        {
+            deathCheck = true;
+            Instantiate(deathParticle, transform.position, Quaternion.Euler(90, 0, 0));
+            StartCoroutine(WaitForDeath());
+            GetComponent<Renderer>().enabled = false;
+            lr.enabled = false;
+            tr.enabled = false;
+            rb.isKinematic = true;
+        }
+    }
+
+    IEnumerator WaitForDeath() 
+    {
+        yield return new WaitForSeconds(3f);
+        wb.OnPlayerDeath();
     }
 }
