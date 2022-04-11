@@ -219,7 +219,7 @@ GameObject:
   - component: {fileID: 1101345810}
   - component: {fileID: 1101345809}
   m_Layer: 5
-  m_Name: EXE-Canvas
+  m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -387,7 +387,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e34cbdfa526af404a8cbd65739440610, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  highScoreText: {fileID: 0}
+  highScoreText: {fileID: 1517510054}
 --- !u!1 &1440218572
 GameObject:
   m_ObjectHideFlags: 0

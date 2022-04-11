@@ -61,7 +61,7 @@ public class WorldBehavior : MonoBehaviour
     public void OnPlayerDeath() 
     {
         if(score > PlayerPrefs.GetFloat("Score"))
-            PlayerPrefs.SetFloat("Score", score);
+            PlayerPrefs.SetFloat("Score", Mathf.Round(score));
         PlayerPrefs.Save();
         Application.LoadLevel("main_menu");
     }
