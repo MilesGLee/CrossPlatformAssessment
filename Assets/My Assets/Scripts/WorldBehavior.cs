@@ -57,4 +57,12 @@ public class WorldBehavior : MonoBehaviour
     {
         score += value;
     }
+
+    public void OnPlayerDeath() 
+    {
+        if(score > PlayerPrefs.GetFloat("Score"))
+            PlayerPrefs.SetFloat("Score", score);
+        PlayerPrefs.Save();
+        Application.LoadLevel("main_menu");
+    }
 }

@@ -14,6 +14,7 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody rb;
     [SerializeField] private TrailRenderer tr;
     private bool trailCheck;
+    [SerializeField] private WorldBehavior wb;
 
     private void Awake()
     {
