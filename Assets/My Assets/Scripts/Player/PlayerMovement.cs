@@ -27,7 +27,7 @@ public class PlayerMovement : MonoBehaviour
         newPos.z = 0;
         transform.position = newPos;
 
-        if (rb.velocity.magnitude >= 10)
+        if (rb.velocity.magnitude >= 11)
         {
             if (trailCheck)
             {

@@ -8,6 +8,7 @@ public class WorldBehavior : MonoBehaviour
     [SerializeField] private Transform player;
     [SerializeField] private GameObject enemy;
     [SerializeField] private GameObject point;
+    [SerializeField] private Text scoreText;
     private float score;
 
     void Start()
@@ -18,7 +19,9 @@ public class WorldBehavior : MonoBehaviour
 
     void Update()
     {
-        
+        if(player)
+            score += 0.01f;
+        scoreText.text = "" + Mathf.Round(score);
     }
 
     void SpawnEnemy() 
@@ -33,6 +36,7 @@ public class WorldBehavior : MonoBehaviour
 
         EnemyBehavior enmy = Instantiate(enemy, randPos, Quaternion.identity).GetComponent<EnemyBehavior>();
         enmy.Target = player;
+        enmy.WB = this;
     }
 
     void SpawnPoint()

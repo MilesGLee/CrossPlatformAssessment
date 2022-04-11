@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6791456022564199155}
   - component: {fileID: 6791456022564199157}
   - component: {fileID: 6791456022564199154}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Particle System
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4818,7 +4818,7 @@ GameObject:
   - component: {fileID: 6791456023302527482}
   - component: {fileID: 6791456023302527483}
   - component: {fileID: 6791456023302527486}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Enemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -4898,7 +4898,7 @@ SphereCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6791456023302527480}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.5
@@ -4943,7 +4943,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6791456024188711840}
   - component: {fileID: 6791456024188711843}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Trail
   m_TagString: Untagged
   m_Icon: {fileID: 0}

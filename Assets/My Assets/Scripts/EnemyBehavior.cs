@@ -6,10 +6,14 @@ public class EnemyBehavior : MonoBehaviour
 {
     [SerializeField] private Transform target;
     [SerializeField] private GameObject deathParticle;
-
+    private WorldBehavior wb;
     public Transform Target 
     {
         set { target = value; }
+    }
+    public WorldBehavior WB
+    {
+        set { wb = value; }
     }
 
     void Update()
@@ -23,18 +27,19 @@ public class EnemyBehavior : MonoBehaviour
         Destroy(gameObject);
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider other)
     {
-        if (collision.transform.tag == "Player") 
+        if (other.transform.tag == "Player") 
         {
-            Rigidbody rb = collision.transform.GetComponent<Rigidbody>();
+            Rigidbody rb = other.transform.GetComponent<Rigidbody>();
             if (rb.velocity.magnitude >= 10)
             {
+                wb.AddScore(200);
                 EnemyDeath();
             }
             else 
             {
-                collision.transform.GetComponent<PlayerMovement>().PlayerDeath();
+                other.transform.GetComponent<PlayerMovement>().PlayerDeath();
             }
         }
     }
